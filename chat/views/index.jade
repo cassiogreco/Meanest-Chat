@@ -1,0 +1,281 @@
+doctype html
+html(ng-app="mainPage")
+  head
+    title Mean Chat
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.css")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.js")
+    script(src='mainPageController.js')
+
+    style.
+      .m-right-10{
+        margin-right: 10%;
+      }
+
+      .hero-unit{
+        background-color: #eeeeee;
+        padding: 0.5% 3% 1% 1%;
+      }
+
+      h1{
+        color: #EEEEEE;
+      }
+
+      h2{
+        color: #FFFFFF;
+      }
+
+      .m-top-7{
+        margin-top:7%;
+      }
+
+      p{
+        color: #FFFFFF;
+      }
+
+      .m-top-4{
+        margin-top:4%;
+      }
+
+      .m-top-8{
+        margin-top:8%;
+      }
+
+      .m-top-6{
+        margin-top:6%;
+      }
+
+      .m-top--2{
+        margin-top:-2.7%;
+      }
+
+      .m-top--12{
+        margin-top:-12%;
+      }
+
+      .m-left-10{
+        margin-left: 10%;
+      }
+      .m-left-8{
+        margin-left: 8%;
+      }
+
+      .m-top-3{
+        margin-top: 3%;
+      }    
+
+      .btn-success{
+        padding: 5% 9% 5% 9%;
+        color: white;
+        line-height: 1.2;
+        margin: 10% auto 0 35%;
+      }
+
+      nav a{
+        text-decoration: none;
+        color: white;
+        padding: 2%;
+      }
+
+      .col-xs-10{
+        margin-right: auto;
+      }
+
+      hr{
+        margin: 1% auto 0 20%;
+      }
+
+      footer p{
+        margin: 1% auto 0 52%;
+      }
+
+      .subtitle{
+        color: #EEEEEE;
+        font-size: 0.5em;
+      }
+
+      html{
+        height: 100%;
+      }
+
+      body{
+        background-image: url('./computer.png');
+        height: 100%;
+        margin: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+        //background-attachment: fixed;
+        //overflow: hidden;
+      }
+
+      .m-left-6{
+        margin-left: 6%;
+      }
+
+      .m-left-7{
+        margin-left: 7%;
+      }
+
+      .m-top-5{
+        margin-top: 5%;
+      }
+
+      .m-left-11{
+        margin-left: 11%;
+      }
+
+      .m-left--2{
+        margin-left: -2%;
+      }
+
+      .m-right-11{
+        margin-right: 11.2%;
+      }
+
+      .m-right-12{
+        margin-right: 12%;
+      }
+
+      .m-left--3{
+        margin-left: -3%;
+      }
+
+      nav a:hover{
+        text-decoration: none;
+        background-color: #333333;
+        border-radius: 5px;
+        color: #eeeeee;
+      }
+
+      .m-left-12{
+        margin-left:11.2%;
+      }
+
+      #error{
+        color: #FE2E2E;
+        margin-left: 25%;
+      }
+
+      .m-left-30{
+        margin-left:33%;
+      }
+
+      #success{
+        color: #42CF65;
+        margin-left: 5%;
+      }
+
+      .centralize{
+        margin-left: 32%;
+      }
+
+      .m-left-42{
+        margin-left:42%;
+      }
+
+      h4{
+        font-weight: bold;
+        color: #333333;
+        margin-top: 0%;
+      }
+
+      .tab{
+        color: #428bca;
+        cursor: pointer;
+      }
+
+      .tab:hover{
+        text-decoration: underline;
+      }
+
+  body(class="" ng-controller="MainPageController" ng-init="init()")
+    h1(class="col-xs-6 m-top-7 m-left-11") MEAN Chat,
+      span(class="subtitle")  the MEANest
+    div(class="col-xs-5 m-top-3 m-left-12")
+      p(class="") We are a web-based online chat built entirely from what developers call a "MEAN stack", which stands for some JavaScript platforms and frameworks called MongoDB, Express, Angular and Node.
+      p(class="") Creating or joining a chatroom is as easy as creating your account, clicking the create or search button, and inserting the chatroom password!
+      div(class="col-xs-5 m-left--3")
+        h2(class="") Secure
+        p(class="m-top-3") SSL encrypted chat
+      div(class="col-xs-5 m-left--3")
+        h2(class="") Private
+        p(class="m-top-3") We don't save your conversation's history
+      div(class="col-xs-5 m-left--3")
+        h2(class="") Easy
+        p(class="m-top-3") Sign up, join a chatroom and voilà
+
+    form(action="/create_account" method="post" class="hero-unit col-xs-4 pull-right m-right-10 m-top-3" ng-show="Register()")
+      h4(class="") Register Now!
+      span(id="error" class="centralize") #{errorC}
+      br
+      label(class="m-top-3 centralize") Name
+      br
+      input(type="text" name="name" class="centralize" required)
+      br
+      label(class="m-top-3 centralize") Username
+      br
+      input(type="text" name="username" class="centralize" required)
+      br
+      label(class="m-top-3 centralize") Password
+      br
+      input(type="password" name="password" class="centralize" required)
+      br
+      label(class="m-top-3 centralize") Email
+      br
+      input(type="email" name="email" class="centralize" required)
+      br
+      br
+      input(type="submit" class="btn btn-primary m-left-42")
+      br
+      br
+      span(class="m-top-3 tab" ng-click="signIn()") Already a member? Sign in
+
+    form(action="/login" method="post" class="hero-unit col-xs-4 pull-right m-right-10 m-top-3" ng-show="Sign()")
+      h4(class="") Login
+      span(id="error" class="") #{error}  
+      span(id="success" class="") #{success}
+      br
+      label(class=" centralize") Username
+      br
+      input(type="text" name="username" class=" centralize" required)
+      br
+      label(class="m-top-3 centralize") Password
+      br
+      input(type="password" name="password" class=" centralize" required)
+      br
+      input(type="submit" class="btn btn-primary btn-large m-top-5 m-left-42")
+      br
+      br
+      span(class="m-top-5 tab" ng-click="forgetting()") I forgot my password
+      br
+      br
+      span(class="m-top-5 tab" ng-click="registering()") Not a member yet? Register now!
+
+    form(action="/forgot_password" method="post" class="hero-unit col-xs-4 pull-right m-right-10 m-top-3" ng-show="Forgot()")
+      h4(class="") Forgot Password
+      br
+      span(id="error" class="m-left-42") #{errorM}
+      br
+      label(class="centralize") Email
+      br
+      input(type="email" name="email" class="centralize" required)
+      br
+      input(type="submit" class="btn btn-primary btn-large m-top-5 m-left-42" id="submit")
+      br
+      br
+      span(class="m-top-5 tab" ng-click="signIn()") Remembered your password? Sign in
+      br
+      br
+      span(class="m-top-5 tab" ng-click="registering()") Not a member yet? Register now!
+
+    script.
+      angular.module('values',[]).value('tab',!{JSON.stringify(tab)});
+      
+    br
+    footer(class="col-xs-10")
+      hr
+      p(style="color: white;")
+        small Created by Cassio Greco
+

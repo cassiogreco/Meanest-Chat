@@ -1,0 +1,155 @@
+doctype html
+html()
+  head
+    title Login
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.css")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.js")
+
+    style.
+      label{
+        color: #333333;
+      }
+
+      h1{
+        color: #EEEEEE;
+      }
+
+      html{
+        height: 100%;
+      }
+
+      body{
+        background-image: url('../books.png');
+        height: 100%;
+        margin: 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        overflow: hidden;
+      }
+
+      #error{
+        color: #FE2E2E;
+      }
+
+      #success{
+        color: #42CF65;
+      }
+
+      .hero-unit{
+        padding: 5%;
+        background-color: #eeeeee;
+      }
+
+      .m-right-16{
+        margin-right: 16%;
+      }
+
+      .m-top--7{
+        margin-top:-7%;
+      }
+
+      .m-top-3{
+        margin-top:3%;
+      }
+
+      .m-top-15{
+        margin-top:15%;
+      }
+
+      .m-top-10{
+        margin-top:10%;
+      }
+
+      .m-left-10{
+        margin-left: 10%;
+      }
+
+      .m-right-10{
+        margin-right: 10%;
+      }
+
+      .m-top-5{
+        margin-top: 5%;
+      }
+
+      hr{
+        margin: 10.6% auto 0 20%;
+      }
+
+      footer p{
+        margin: 1% auto 0 52%;
+      }
+
+      nav a:hover{
+        text-decoration: none;
+        background-color: #333333;
+        border-radius: 5px;
+        color: #eeeeee;
+      }
+
+      nav a{
+        text-decoration: none;
+        color: white;
+        padding: 2%;
+      }
+
+      .m-right-11{
+        margin-right: 11%;
+      }
+
+      .m-right-12{
+        margin-right: 12%;
+      }
+
+      .m-right-13{
+        margin-right: 13%;
+      }
+
+      .m-top--2{
+        margin-top: -2%;
+      }
+
+      .m-left-11{
+        margin-left: 11%;
+      }
+
+      .m-top-7{
+        margin-top: 7%;
+      }
+
+      .m-left-6{
+        margin-left: 6%;
+      }
+
+      .m-top--3{
+        margin-top:-2.7%;
+      }
+
+  body
+    h1(class="col-xs-6 m-top-7 m-left-11") Login
+    nav(class="col-xs-4 pull-right m-right-12 m-top--3")
+      a(href="/" class="active") Home
+
+    form(action="/login" method="post" class="hero-unit col-xs-4 pull-right m-right-10 m-top-3")
+      span(id="error") #{error}  
+      span(id="success") #{success}
+      br
+      label(class="") Username
+      br
+      input(type="text" name="username" required)
+      br
+      label(class="m-top-3") Password
+      br
+      input(type="password" name="password" required)
+      br
+      input(type="submit" class="btn btn-primary btn-large m-top-5")
+      br
+      br
+      a(href="/forgot" class="m-top-5") I forgot my password
+    br
+    footer(class="col-xs-10")
+      hr
+      p(style="color: white;")
+        small Created by Cassio Greco

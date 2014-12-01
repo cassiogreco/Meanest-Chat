@@ -1,0 +1,168 @@
+doctype html
+html(ng-app="general")
+  head
+    title= title
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js")
+    script(src="../socket.io/socket.io.js")
+    script(src="angularController.js")
+
+    style.
+
+      .col-xs-5{
+        //border: 1px solid black;
+
+      }
+
+      .col-xs-6{
+        height: 400px;
+        //border: 1px solid black;
+      }
+
+      .col-xs-7{
+        height: 400px;
+        //border: 1px solid black;
+      }
+
+      .m-right-15{
+        margin-right: 15%;
+      }
+
+      .button{
+        border: none;
+        background-color: #FE2E2E;
+        color: white;
+        margin-left: 2%;
+      }
+
+      .logout{
+        margin-right: 2%;
+        margin-top: -5%;
+      }
+
+      .m-bottom-2{
+        margin-bottom: 2%;
+      }
+
+      li h4{
+        cursor: pointer;
+        margin-bottom: 3%;
+      }
+
+      #chat_name{
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #search{
+        margin-left: 1%;
+        border: none;
+        background-color: #2ec866;
+        color: white;
+        border-radius: 5px;
+      }
+
+      .autoMargins{
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .create{
+        border-radius: 5px;
+        margin-right: 15%;
+        border: none;
+        background-color: #2ec866;
+        color: white;
+        border-radius: 5px;
+        padding-left: 10%;
+        padding-right: 10%;
+      }
+
+      .m-left-2{
+        margin-left: 2%;
+      }
+
+      .m-bottom-4{
+        margin-bottom: 4%;
+      }
+
+      h4{
+        margin-bottom: 0;
+      }
+
+      .errorMessage{
+        color: #FE2E2E;
+      }
+
+      html{
+        height: 100%;
+      }
+
+      body{
+        background: #feffff;
+        background: -moz-linear-gradient(45deg,  #feffff 0%, #d2ebf9 100%);
+        background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#feffff), color-stop(100%,#d2ebf9));
+        background: -webkit-linear-gradient(45deg,  #feffff 0%,#d2ebf9 100%);
+        background: -o-linear-gradient(45deg,  #feffff 0%,#d2ebf9 100%);
+        background: -ms-linear-gradient(45deg,  #feffff 0%,#d2ebf9 100%);
+        background: linear-gradient(45deg,  #feffff 0%,#d2ebf9 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#d2ebf9',GradientType=1 );
+        height: 100%;
+        margin: 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+  body(ng-controller="MainController" ng-init="init();" class="")
+    header
+      h1(class="") Welcome {{username}}
+      a(href="/logout" class="pull-right logout") Logout
+      br
+    br
+    br
+    div(id="show" class="col-xs-6")
+      input(type="text" id="chat_name" ng-model="chatroomName")
+      button(id="search" ng-click="searchChatroom(chatroomName);") Search
+      br
+      span(class="") {{errorSearch}}
+      li(ng-repeat="chatroom in chatroomsSearched" class="list-unstyled autoMargins")
+        h4
+          strong(ng-click="setChatroomLooking(chatroom);") {{chatroom.name}}
+        div(class="" ng-show="showOptions(chatroom._id);")
+          label(class="") Password
+          input(type="password" class="m-left-2" ng-model="password_join" placeholder="Chatroom password" id="pass")
+          button(ng-click="joinChatroom(chatroom.name,password_join);" class="m-left-2" id="join") Join
+          span(class="errorMessage m-left-2") {{errorMessage}}
+          br
+    div(class="col-xs-5 pull-right" id="chatrooms")
+      button(class="create" ng-click="createChatroom();") +
+      form(ng-show="creatingChatroom" ng-submit="saveChatroom(password);" role="form" class="")
+        br
+        label(class="") Password
+        input(type="password" ng-model="password" placeholder="Type in the password" class="m-left-2")
+        input(type="submit" class="m-left-2")
+      button(class="" ng-click="cancelCreateChatroom();" ng-show="creatingChatroom") Cancel
+      br
+      br
+      h4(class="")
+        strong My Chatrooms
+      br
+      li(ng-repeat="chatroom in userChatrooms" class="list-unstyled m-bottom-4")
+        a( href="/chat/{{chatroom.name}}" target="_blank" class="m-left-2") {{chatroom.name}}
+        button(class="pull-right m-right-15 button" ng-click="deleteChatroom(chatroom);") Delete
+        span(class="m-bottom-2")
+
+
+    footer
+      p(class="")
+      a(href="" class="")
+      span(class="")
+
+    script.
+      angular.module('values',[]).value('user',!{JSON.stringify(user)});
+      
+      
+    

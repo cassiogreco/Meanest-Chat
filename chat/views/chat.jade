@@ -1,0 +1,178 @@
+doctype html
+html(ng-app="chatrooms")
+  head
+    title= title
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js")
+    script(src="../socket.io/socket.io.js")
+    script(src="../chatController.js")
+    style.
+      .admin{
+        color: red;
+      }
+      .col-xs-9{
+        border: 1px solid black;
+        background-color: white;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .col-xs-3{
+        border: 1px solid black;
+        background-color: white;
+      }
+      .col-xs-7{
+        word-wrap:break-word;
+        display: inline;
+        text-align: justify;
+        text-justify: inter-word;
+      }
+      .h-50{
+        height: 420px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+      .h-100{
+        height: 100%;
+      }
+      .ownMessage{
+        float: right;
+        background-color: blue;
+        border-radius: 2%;
+        border: 1px solid black;
+      }
+      .otherMessage{
+        float: left;
+        background-color: #BBBBBB;
+        border-radius: 2%;
+        border: 1px solid black;
+      }
+      .m-top-1{
+        margin-top:1%;
+      }
+      .m-left-1{
+        margin-left: 1%;
+      }
+
+      .m-left-2{
+        margin-left: 2%;
+      }
+
+      .btn{
+        margin-left: 2%;
+        margin-top: -10%;
+      }
+
+      td .m-left-1{
+        margin-left: 3%;
+      }
+
+      .bg-self{
+        border-radius: 10px;
+        padding: 1%;
+        padding-top: 0; 
+        background-color: #FBEFC4; 
+      }
+
+      .bg-success{
+        border-radius: 10px;
+        padding: 1%;
+        padding-top: 0;
+      }
+
+      .makeAdmin{
+        background-color: #2ec866;
+        color: white;
+        border-radius: 10px;
+        //border: 1px solid #088837;
+        border: 0;
+        margin-left: 10%;
+      }
+
+      #messages li{      
+        width: 58.33%;
+      }
+
+      html{
+        height: 100%;
+      }
+
+      .loggedoff{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        float: left;
+        margin-top: 6px;
+        background-color: #CCCCCC;
+      }
+
+      .separate{
+        margin-left: 2%;
+      }
+
+      .loggedin{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        float: left;
+        margin-top: 6px;
+        background-color: #42CF65;
+      }
+
+      body{
+        background: #feffff;
+        background: -moz-linear-gradient(45deg,  #feffff 0%, #d2ebf9 100%);
+        background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#feffff), color-stop(100%,#d2ebf9));
+        background: -webkit-linear-gradient(45deg,  #feffff 0%,#d2ebf9 100%);
+        background: -o-linear-gradient(45deg,  #feffff 0%,#d2ebf9 100%);
+        background: -ms-linear-gradient(45deg,  #feffff 0%,#d2ebf9 100%);
+        background: linear-gradient(45deg,  #feffff 0%,#d2ebf9 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#d2ebf9',GradientType=1 );
+        margin: 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+      
+  body(ng-controller="ChatController" ng-init="init();" class="h-100")
+    header(ng-init="initChat();")
+      h1(class="") Room {{chatroom}}
+    div(class="col-xs-9 h-50" id="messages")
+      li(ng-repeat="message in messages" class="list-unstyled col-xs-7 text-nav m-top-1" ng-class="{'bg-self': messageFromSelf(message.user),'bg-success': messageFromOther(message.user), 'pull-right': messageFromSelf(message.user)}")
+        small
+          strong(ng-class="{'text-danger': isAdmin(message.user)}") {{message.user}}
+          span(class="m-left-2") {{message.time}}
+        br 
+        span(class="pull-right") {{message.message}}
+        br
+
+    div(class="col-xs-3 h-50 pull-right" id="users")
+      li(ng-repeat="participant in participants" ng-click="selectParticipant(participant);" class="list-unstyled")
+        span(name="status" ng-class="{'loggedin': statusParticipant(participant),'loggedoff': !statusParticipant(participant)}")
+        span(class="separate" ng-class="{'text-danger': isAdmin(participant)}") {{participant}}
+          button(ng-show="showMakeAdmin(participant);" class="makeAdmin" ng-click="makeAdmin(participant);") Make Admin
+    
+    textarea(cols="140" rows="6" style="resize: none;" id="textarea" ng-model="text" class="m-top-1")
+    button(id="send" class="btn btn-primary btn-lg active" ng-click="sendMessage(text);") Send
+
+    script.
+      angular.module('chatValues',[]).value('participants',!{JSON.stringify(participants)})
+      .value('user',!{JSON.stringify(user)}).value('chatroom',!{JSON.stringify(room)})
+      .value('admins',!{JSON.stringify(admins)});
+      var textarea = document.getElementById('textarea');
+      document.getElementById('textarea').focus();
+      var sendButton = document.getElementById('send');
+      sendButton.onclick = function(){
+        textarea.value = "";
+        textarea.textContent = "";
+        document.getElementById('textarea').focus();
+      }
+      
+      $("#textarea").keyup(function(event){
+        if(event.keyCode == 13){
+          $("#send").click();
+        }
+      });
+
+    
